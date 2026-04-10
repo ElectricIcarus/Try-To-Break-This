@@ -119,3 +119,13 @@ Question: does the attractor still hold?
 ```bash
 pip install -r requirements.txt
 python experiments.py
+---
+
+## Interpretation Note
+
+If the system maintains high CR, bounded AS, and finite RT across stress tests,
+this suggests the presence of a stable coherence regime with preserved individuality.
+
+If not, the hypothesis does not hold under those conditions.
+
+No further claims are implied.
