@@ -1,40 +1,28 @@
 """
-Synchrocity Experiment Runner
+Synchrocity experiment runner.
 
-Runs a multi-agent system and evaluates whether it reaches
-a stable collective coherence while preserving individual variation.
+Runs a baseline multi-agent swarm simulation and reports
+core Synchrocity metrics.
 """
 
-import numpy as np
-from core import Agent
+from core import ThirdMindSwarm
 from metrics import compute_metrics
 
-def run_experiment(num_agents=10, steps=500, dim=3, seed=42):
-    np.random.seed(seed)
 
-    agents = [Agent(dim) for _ in range(num_agents)]
-    history = []
+def run_baseline(n_agents=10, steps=200):
+    swarm = ThirdMindSwarm(n_agents=n_agents)
 
     for _ in range(steps):
-        states = np.array([agent.state for agent in agents])
-        mean_state = np.mean(states, axis=0)
+        swarm.step()
 
-        new_states = []
-        for agent in agents:
-            new_states.append(agent.update(mean_state))
-
-        history.append(new_states)
-
-    metrics = compute_metrics(history)
-
-    return metrics
+    return compute_metrics(swarm.history)
 
 
 if __name__ == "__main__":
-    results = run_experiment()
+    results = run_baseline()
 
     print("\n--- Synchrocity Results ---")
-    print(f"Individual Variance (IV): {results['individual_variance']:.4f}")
-    print(f"Collective Variance (CV): {results['collective_variance']:.4f}")
-    print(f"Coherence Ratio (CR): {results['coherence_ratio']:.4f}")
-    print(f"Mean Norm: {results['mean_norm']:.4f}")
+    print(f"Individual Variance (IV): {results['individual_variance']:.6f}")
+    print(f"Collective Variance (CV): {results['collective_variance']:.6f}")
+    print(f"Coherence Ratio (CR): {results['coherence_ratio']:.6f}")
+    print(f"Mean Norm: {results['mean_norm']:.6f}")
